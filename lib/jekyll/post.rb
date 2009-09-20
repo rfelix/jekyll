@@ -38,6 +38,12 @@ module Jekyll
       @name = name
 
       self.categories = dir.split('/').reject { |x| x.empty? }
+      if name.include?('/')
+        categories = name.split('/').reject { |x| x.empty? }
+        categories.pop # Remove filename
+        self.categories += categories
+      end
+
       self.process(name)
       self.read_yaml(@base, name)
 
