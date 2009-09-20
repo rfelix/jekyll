@@ -144,7 +144,31 @@ class TestPost < Test::Unit::TestCase
             assert_equal "/:categories/:year/:month/:day/:title/", @post.template
             assert_equal "/2008/10/19/foo-bar/", @post.url
           end
+          
+          should "process the url correctly along with category" do
+            @site.permalink_style = :pretty            
+            post = Post.new(@site, source_dir, 'category', "2008-9-23-categories.textile")
+            assert_equal "/category/2008/09/23/categories/", post.url
+          end
         end
+        
+        context "with pretty_no_category style" do
+          setup do
+            @post.site.permalink_style = :pretty_no_category
+            @post.process("category/2008-9-23-categories.textile")
+          end
+
+          should "process the url correctly" do
+            assert_equal "/:year/:month/:day/:title/", @post.template
+            assert_equal "/2008/09/23/categories/", @post.url
+          end
+          
+          should "process the url correctly along with category" do
+            @site.permalink_style = :pretty_no_category            
+            post = Post.new(@site, source_dir, 'category', "2008-9-23-categories.textile")
+            assert_equal "/2008/09/23/categories/", post.url
+          end
+        end        
 
         context "with prefix style and no extension" do
           setup do

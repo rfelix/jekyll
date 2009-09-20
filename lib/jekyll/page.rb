@@ -43,7 +43,8 @@ module Jekyll
     end
 
     def template
-      if self.site.permalink_style == :pretty && !index?
+      if (self.site.permalink_style == :pretty ||
+          self.site.permalink_style == :pretty_no_category) && !index?
         "/:name/"
       else
         "/:name.html"
