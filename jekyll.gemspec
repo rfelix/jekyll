@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
      "features/site_data.feature",
      "features/step_definitions/jekyll_steps.rb",
      "features/support/env.rb",
-     "jekyll.gemspec",
      "lib/jekyll.rb",
      "lib/jekyll/albino.rb",
      "lib/jekyll/converters/csv.rb",
