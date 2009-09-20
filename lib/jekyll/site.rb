@@ -253,8 +253,9 @@ module Jekyll
           "posts"      => self.posts.sort { |a,b| b <=> a },
           "categories" => post_attr_hash('categories'),
           "tags"       => post_attr_hash('tags'),
-          'tmpCategories' => make_iterable(self.categories, :index => 'name', :items => 'posts')
-          })}
+          'iterable' => {
+              'categories' => make_iterable(self.categories, :index => 'name', :items => 'posts')
+          }})}
     end
 
     # Filter out any files/directories that are hidden or backup files (start
