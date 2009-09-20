@@ -45,5 +45,9 @@ class TestFilters < Test::Unit::TestCase
     should "escape special characters" do
       assert_equal "hey%21", @filter.cgi_escape("hey!")
     end
+    
+    should "shorten long text" do
+      assert_equal "A very...title!", @filter.shorten("A very long title!", 17)
+    end
   end
 end
