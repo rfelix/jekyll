@@ -1,0 +1,13 @@
+---
+layout: nil
+---
+<ul>
+{% for topic in site.iterable.categories %}
+	<li>{{ topic.name }}</li>
+	<ul>
+	{% for post in topic.posts %}
+		<li>{{ post.title }}</li>
+	{% endfor %}
+	</ul>
+{% endfor %}
+</ul>

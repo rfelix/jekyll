@@ -36,5 +36,13 @@ class TestGeneratedSite < Test::Unit::TestCase
       assert File.exists?(dest_dir('/about/index.html'))
       assert File.exists?(dest_dir('/contacts.html'))
     end
+    
+    should "render all categories and corresponding posts" do
+      category_listing = File.read(dest_dir('category_listing.html'))
+      @site.categories.each do |c, posts|
+        assert category_listing.include?(c)
+        posts.each { |p| assert category_listing.include?(p.to_liquid['title']) }
+      end
+    end
   end
 end
