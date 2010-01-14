@@ -254,7 +254,8 @@ module Jekyll
           "categories" => post_attr_hash('categories'),
           "tags"       => post_attr_hash('tags'),
           'iterable' => {
-              'categories' => make_iterable(self.categories, :index => 'name', :items => 'posts')
+              'categories' => make_iterable(self.categories, :index => 'name', :items => 'posts'),
+              'tags' => make_iterable(self.tags, :index => 'name', :items => 'posts')
           }})}
     end
 
