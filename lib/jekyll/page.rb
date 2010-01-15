@@ -4,7 +4,7 @@ module Jekyll
     include Convertible
 
     attr_accessor :site
-    attr_accessor :name, :ext, :basename
+    attr_accessor :name, :ext, :basename, :dir
     attr_accessor :data, :content, :output
 
     # Initialize a new Page.
@@ -100,6 +100,10 @@ module Jekyll
       File.open(path, 'w') do |f|
         f.write(self.output)
       end
+    end
+
+    def inspect
+      "#<Jekyll:Page @name=#{self.name.inspect}>"
     end
 
     private

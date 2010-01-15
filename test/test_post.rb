@@ -36,6 +36,7 @@ class TestPost < Test::Unit::TestCase
       end
 
       should "keep date, title, and markup type" do
+        @post.categories = []
         @post.process(@fake_file)
 
         assert_equal Time.parse("2008-10-19"), @post.date
@@ -77,7 +78,19 @@ class TestPost < Test::Unit::TestCase
           @post.read_yaml(@source, @real_file)
 
           assert_equal({"title" => "Test title", "layout" => "post", "tag" => "Ruby"}, @post.data)
-          assert_equal "\r\nThis is the content", @post.content
+          assert_equal "This is the content", @post.content
+        end
+      end
+
+      context "with embedded triple dash" do
+        setup do
+          @real_file = "2010-01-08-triple-dash.markdown"
+        end
+        should "consume the embedded dashes" do
+          @post.read_yaml(@source, @real_file)
+
+          assert_equal({"title" => "Foo --- Bar"}, @post.data)
+          assert_equal "Triple the fun!", @post.content
         end
       end
 
@@ -187,7 +200,7 @@ class TestPost < Test::Unit::TestCase
         @post.read_yaml(@source, @real_file)
 
         assert_equal({"title" => "Foo Bar", "layout" => "default"}, @post.data)
-        assert_equal "\nh1. {{ page.title }}\n\nBest *post* ever", @post.content
+        assert_equal "h1. {{ page.title }}\n\nBest *post* ever", @post.content
       end
 
       should "transform textile" do
@@ -236,6 +249,16 @@ class TestPost < Test::Unit::TestCase
         assert_equal false, post.published
       end
 
+      should "recognize date in yaml" do
+        post = setup_post("2010-01-09-date-override.textile")
+        assert_equal "/2010/01/10/date-override.html", post.url
+      end
+
+      should "recognize time in yaml" do
+        post = setup_post("2010-01-09-time-override.textile")
+        assert_equal "/2010/01/10/time-override.html", post.url
+      end
+
       should "recognize category in yaml" do
         post = setup_post("2009-01-27-category.textile")
         assert post.categories.include?('foo')
@@ -246,6 +269,16 @@ class TestPost < Test::Unit::TestCase
         assert post.categories.include?('foo')
         assert post.categories.include?('bar')
         assert post.categories.include?('baz')
+      end
+
+      should "recognize empty category in yaml" do
+        post = setup_post("2009-01-27-empty-category.textile")
+        assert_equal [], post.categories
+      end
+
+      should "recognize empty categories in yaml" do
+        post = setup_post("2009-01-27-empty-categories.textile")
+        assert_equal [], post.categories
       end
 
       should "recognize tag in yaml" do
@@ -260,6 +293,16 @@ class TestPost < Test::Unit::TestCase
         assert post.tags.include?('pizza')
       end
       
+      should "recognize empty tag in yaml" do
+        post = setup_post("2009-05-18-empty-tag.textile")
+        assert_equal [], post.tags
+      end
+
+      should "recognize empty tags in yaml" do
+        post = setup_post("2009-05-18-empty-tags.textile")
+        assert_equal [], post.tags
+      end
+
       should "allow no yaml" do
         post = setup_post("2009-06-22-no-yaml.textile")
         assert_equal "No YAML.", post.content

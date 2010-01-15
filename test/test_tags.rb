@@ -41,28 +41,28 @@ CONTENT
   
   # No Pygments
   # context "post content has highlight tag" do
-  #   setup do
-  #     fill_post("test")
+  #     setup do
+  #       fill_post("test")
+  #     end
+  # 
+  #     should "not cause a markdown error" do
+  #       assert_no_match /markdown\-html\-error/, @result
+  #     end
+  # 
+  #     should "render markdown with pygments line handling" do
+  #       assert_match %{<pre><code class='text'>test\n</code></pre>}, @result
+  #     end
   #   end
   # 
-  #   should "not cause a markdown error" do
-  #     assert_no_match /markdown\-html\-error/, @result
-  #   end
+  #   context "post content has highlight tag with UTF character" do
+  #     setup do
+  #       fill_post("Æ")
+  #     end
   # 
-  #   should "render markdown with pygments line handling" do
-  #     assert_match %{<pre>test\n</pre>}, @result
+  #     should "render markdown with pygments line handling" do
+  #       assert_match %{<pre><code class='text'>Æ\n</code></pre>}, @result
+  #     end
   #   end
-  # end
-  # 
-  # context "post content has highlight tag with UTF character" do
-  #   setup do
-  #     fill_post("Æ")
-  #   end
-  # 
-  #   should "render markdown with pygments line handling" do
-  #     assert_match %{<pre>Æ\n</pre>}, @result
-  #   end
-  # end
 
   context "simple post with markdown and pre tags" do
     setup do
