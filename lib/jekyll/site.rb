@@ -178,6 +178,24 @@ module Jekyll
       self.static_files.each do |sf|
         sf.write(self.dest)
       end
+      self.write_tag_indexes
+    end
+
+    # Write each tag page
+    #
+    # Returns nothing
+    def write_tag_index(dir, tag)
+      index = TagIndex.new(self, self.source, dir, tag)
+      index.render(self.layouts, site_payload)
+      index.write(self.dest)
+    end
+
+    def write_tag_indexes
+      if self.layouts.key? 'tag_index'
+        self.tags.keys.each do |tag|
+          self.write_tag_index(File.join('tags', tag), tag)
+        end
+      end
     end
 
     # Reads the directories and finds posts, pages and static files that will 
