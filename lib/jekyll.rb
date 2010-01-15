@@ -29,6 +29,7 @@ require 'jekyll/albino'
 require 'jekyll/static_file'
 require 'jekyll/tag_index'
 require 'jekyll/archive'
+require 'jekyll/category_index'
 
 module Jekyll
   # Default options. Overriden by values in _config.yml or command-line opts.

@@ -195,6 +195,7 @@ module Jekyll
       end
       self.write_tag_indexes
       self.write_archives      
+      self.write_category_indexes      
     end
 
     # Write each tag page
@@ -210,6 +211,24 @@ module Jekyll
       if self.layouts.key? 'tag_index'
         self.tags.keys.each do |tag|
           self.write_tag_index(File.join('tags', tag), tag)
+        end
+      end
+    end
+    
+    # Write each category page
+    #
+    # Returns nothing
+    def write_category_index(dir, category)
+      index = CategoryIndex.new(self, self.source, dir, category)
+      index.render(self.layouts, site_payload)
+      index.write(self.dest)
+    end
+
+    def write_category_indexes
+      if self.layouts.key? 'category_index'
+        dir = self.config['category_dir'] || 'categories'
+        self.categories.keys.each do |category|
+          self.write_category_index(File.join(dir, category), category)
         end
       end
     end
