@@ -204,6 +204,11 @@ module Jekyll
         f.write(self.output)
       end
     end
+    
+    def short_content
+      delimeter = @site.config['content_delimeter'] || '<!-- -**-END-**- -->'
+      self.content.split(delimeter)[0]
+    end
 
     # Convert this post into a Hash for use in Liquid templates.
     #
@@ -217,6 +222,7 @@ module Jekyll
         "next"       => self.next,
         "previous"   => self.previous,
         "tags"       => self.tags,
+        "short"      => self.short_content,
         "content"    => self.content }.deep_merge(self.data)
     end
 
